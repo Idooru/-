@@ -8,7 +8,6 @@ const $add = $("#newbook form .add");
 const $input = $("#newbook form div:nth-child(1) input");
 
 const drawbooks = () => {
-  books.reverse();
   let bookList = "<ul>";
 
   for (let i = 0; i < books.length; i++) {
@@ -46,7 +45,7 @@ $close.on("click", function () {
 $add.on("click", function () {
   let flag = true;
 
-  $("form input").each(function () {
+  $input.each(function () {
     if (!$(this).val()) {
       flag = false;
     }
@@ -68,5 +67,11 @@ $add.on("click", function () {
   };
 
   books.push(newlist);
+  drawbooks();
+});
+
+$("#content .list").on("click", "ul li p button", function () {
+  let num = $(this).parent().parent().parent().index();
+  books.splice(num, 1);
   drawbooks();
 });
