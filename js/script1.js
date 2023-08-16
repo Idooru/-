@@ -8,14 +8,15 @@ const $add = $("#newbook form .add");
 const $input = $("#newbook form div:nth-child(1) input");
 
 const drawbooks = () => {
+  books.reverse();
   let bookList = "<ul>";
 
   for (let i = 0; i < books.length; i++) {
     bookList += "<li>";
     bookList += "<div>";
     bookList += `<p>
-                      <img src="./images/${books[i].photo}" onerror="this.src='./images/noimage.gif'"
-                      alt="${books[i].subject}">
+                    <img src="./images/${books[i].photo}" onerror="this.src='./images/noimage.gif'"
+                    alt="${books[i].subject}">
                   </p>`;
     bookList += `<p>${books[i].subject}</p>`;
     bookList += `<p>${books[i].author}</p>`;
@@ -44,27 +45,28 @@ $close.on("click", function () {
 
 $add.on("click", function () {
   let flag = true;
-  console.log($input);
-  //   for (let i = 0; i < $input.length; i++) {
-  //     if (!$input[i].value) {
-  //       alert("값을 입력해주세요!");
-  //       return false;
-  //     }
-  //   }
 
-  if (flag) {
-    let newlist = {
-      subject: $("form input").eq(0).val(),
-      author: $("form input").eq(1).val(),
-      publisher: $("form input").eq(2).val(),
-      date: $("form input").eq(3).val(),
-      price: $("form input").eq(4).val(),
-      summary: $("form input").eq(5).val(),
-      photo: $("form input").eq(6).val(),
-    };
-    books.push(newlist);
-    drawbooks();
+  $("form input").each(function () {
+    if (!$(this).val()) {
+      flag = false;
+    }
+  });
+
+  if (!flag) {
+    alert("모든 값을 넣어주세요!");
+    return;
   }
 
-  //   $input.forEach((item) => (item.value = ""));
+  const newlist = {
+    subject: $("form input").eq(0).val(),
+    author: $("form input").eq(1).val(),
+    publisher: $("form input").eq(2).val(),
+    date: $("form input").eq(3).val(),
+    price: $("form input").eq(4).val(),
+    summary: $("form input").eq(5).val(),
+    photo: $("form input").eq(6).val(),
+  };
+
+  books.push(newlist);
+  drawbooks();
 });
